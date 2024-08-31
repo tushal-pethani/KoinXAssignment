@@ -1,16 +1,23 @@
-import dotenv from "dotenv";
-import connectDB from "../db/index.js";
-import { app } from "./app.js";
-dotenv.config({
-  path: "./env",
-});
+import express from "express";
+import mainRouter from "./routes/mainRouter.routes.js";
+import cron from "node-cron";
+import { fetchAndStorePrice } from "./controllers/priceController.controllers.js";
+import { asyncCronHandler } from "./utils/asyncHandler.js";
 
-connectDB()
-  .then(() => {
-    app.listen(process.env.PORT || 8000, () => {
-      console.log(`settings server is running at port : ${process.env.PORT}`);
-    });
+const app = express();
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+app.use(express.json({ limit: "16kb" }));
+app.use(express.static("public"));
+
+//http://localhost:8000/api/v1/transactions/:address
+app.use("/api/v1", mainRouter);
+
+cron.schedule(
+  "*/1 * * * *",
+  asyncCronHandler(async () => {
+    await fetchAndStorePrice();
+    console.log("Ethereum price fetched and stored");
   })
-  .catch((err) => {
-    console.log("mongoDB connection failed !!!", err);
-  });
+);
+
+export { app };
