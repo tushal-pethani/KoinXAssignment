@@ -9,6 +9,7 @@
 - Cron Jobs
 - Contributing
 - License
+- Video Tutorial
 
 ## Introduction 📖
 KoinX is a Node.js application designed to fetch and store Ethereum prices at regular intervals using cron jobs. It provides a RESTful API for accessing transaction data and calculating user expenses based on their Ethereum address.
@@ -59,6 +60,9 @@ KoinX is a Node.js application designed to fetch and store Ethereum prices at re
     - Schedule: Every minute
     - Handler: `fetchAndStorePrice`
     - Logs: "Ethereum price fetched and stored"
+
+## Video Tutorial 🎥
+For a step-by-step guide, watch our [YouTube tutorial](https://youtu.be/2TRKGgS6UC8) 📹.
 
 ## License 📜
 This project is licensed under the MIT License.
